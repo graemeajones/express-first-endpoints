@@ -39,7 +39,7 @@ router.put('/:id', (req, res) => {
   // Access data model
   const user = tableOfUsers.find((user) => user.UserID === parseInt(req.params.id));
   if (!user) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
-  ["UserFirstname", "UserLastname", "UserEmail", "UserPassword", "UserRegistered", "UserUsertypeID", "UserCohortID", "UserImageURL"].map((key) => {
+  ["UserFirstname", "UserLastname", "UserEmail", "UserPassword", "UserRegistered", "UserUsertypeID", "UserLevel", "UserImageURL"].map((key) => {
     user[key] = req.body[key] || user[key]
   });
   // Response to request
