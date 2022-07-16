@@ -39,7 +39,7 @@ router.put('/:id', (req, res) => {
   // Access data model
   const module = tableOfModules.find((module) => module.ModuleID === parseInt(req.params.id));
   if (!module) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
-  ["ModuleName", "ModuleCode", "ModuleLevel", "ModuleLeaderID", "ModuleImage"].map((key) => {
+  ["ModuleName", "ModuleCode", "ModuleLevel", "ModuleLeaderID", "ModuleImageURL"].map((key) => {
     module[key] = req.body[key] || module[key]
   });
   // Response to request
