@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
   // Validate request
   // Access data model
   const user = tableOfUsers.find((user) => user.UserID === parseInt(req.params.id));
-  if (!user) return res.status(404).json({ Messsage: `Record ${req.params.id} not found`});
+  if (!user) return res.status(404).json({ message: `Record ${req.params.id} not found`});
   // Response to request
   res.json(user);
 });
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   // Validate request
   // Access data model
-  const newUser = { ...req.body, "UserID": tableOfUsers.reduce((maxval,current) => Math.max(maxval,current)) + 1 };
+  const newUser = { ...req.body, "UserID": tableOfUsers.reduce((max, curr) => curr.UserID > max.UserID ? curr : max).UserID + 1 };
   tableOfUsers.push(newUser);
   // Response to request
   res.json(newUser);
@@ -38,7 +38,7 @@ router.put('/:id', (req, res) => {
   // Validate request
   // Access data model
   const user = tableOfUsers.find((user) => user.UserID === parseInt(req.params.id));
-  if (!user) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
+  if (!user) return res.status(404).json({ message: `Record ${req.params.id} not found` });
   ["UserFirstname", "UserLastname", "UserEmail", "UserPassword", "UserRegistered", "UserUsertypeID", "UserLevel", "UserImageURL"].map((key) => {
     user[key] = req.body[key] || user[key]
   });
@@ -51,8 +51,8 @@ router.delete('/:id', (req, res) => {
   // Validate request
   // Access data model
   const index = tableOfUsers.findIndex((user) => user.UserID === parseInt(req.params.id));
-  if (index < 0) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
-  tableOfUsers.splice(arrayIndex,1);
+  if (index < 0) return res.status(404).json({ message: `Record ${req.params.id} not found` });
+  tableOfUsers.splice(index,1);
   // Response to request
   res.json({ Message: `Record ${req.params.id} deleted` });
 });

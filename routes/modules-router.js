@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
   // Validate request
   // Access data model
   const module = tableOfModules.find((module) => module.ModuleID === parseInt(req.params.id));
-  if (!module) return res.status(404).json({ Messsage: `Record ${req.params.id} not found`});
+  if (!module) return res.status(404).json({ message: `Record ${req.params.id} not found`});
   // Response to request
   res.json(module);
 });
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   // Validate request
   // Access data model
-  const newModule = { ...req.body, "ModuleID": tableOfModules.reduce((maxval,current) => Math.max(maxval,current)) + 1 };
+  const newModule = { ...req.body, "ModuleID": tableOfModules.reduce((max, curr) => curr.ModuleID > max.ModuleID ? curr : max).ModuleID + 1 };
   tableOfModules.push(newModule);
   // Response to request
   res.json(newModule);
@@ -38,7 +38,7 @@ router.put('/:id', (req, res) => {
   // Validate request
   // Access data model
   const module = tableOfModules.find((module) => module.ModuleID === parseInt(req.params.id));
-  if (!module) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
+  if (!module) return res.status(404).json({ message: `Record ${req.params.id} not found` });
   ["ModuleName", "ModuleCode", "ModuleLevel", "ModuleLeaderID", "ModuleImageURL"].map((key) => {
     module[key] = req.body[key] || module[key]
   });
@@ -50,9 +50,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   // Validate request
   // Access data model
-  const arrayIndex = tableOfModules.findIndex((module) => module.ModuleID === parseInt(req.params.id));
-  if (arrayIndex < 0) return res.status(404).json({ Messsage: `Record ${req.params.id} not found` });
-  tableOfModules.splice(arrayIndex,1);
+  const index = tableOfModules.findIndex((module) => module.ModuleID === parseInt(req.params.id));
+  if (index < 0) return res.status(404).json({ message: `Record ${req.params.id} not found` });
+  tableOfModules.splice(index,1);
   // Response to request
   res.json({ Message: `Record ${req.params.id} deleted` });
 });
